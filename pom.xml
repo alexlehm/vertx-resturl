@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>cx.lehmann.vertx</groupId>
-  <artifactId>verx-resturl</artifactId>
-  <version>3.2.0</version>
+  <artifactId>vertx-resturl</artifactId>
+  <version>3.3.0</version>
 
   <properties>
     <!-- the main class -->
-    <exec.mainClass>cx.lehmann.vertx.RestUrl</exec.mainClass>
+    <main.verticle>cx.lehmann.vertx.ProxyRequestVerticle</main.verticle>
   </properties>
 
   <dependencies>
@@ -19,14 +18,44 @@
       <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
       <version>${project.version}</version>
+      <type>test-jar</type>
     </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-unit</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.5.10</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-handler-proxy</artifactId>
+    <version>4.1.0.Final</version>
+</dependency>
   </dependencies>
 
   <build>
 
     <pluginManagement>
       <plugins>
-        <!-- We specify the Maven compiler plugin as we need to set it to Java 1.8 -->
+        <!-- We specify the Maven compiler plugin as we need to set it to 
+          Java 1.8 -->
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.1</version>
@@ -38,11 +67,9 @@
       </plugins>
     </pluginManagement>
 
-    <!--
-    You only need the part below if you want to build your application into a fat executable jar.
-    This is a jar that contains all the dependencies required to run it, so you can just run it with
-    java -jar
-    -->
+    <!-- You only need the part below if you want to build your application 
+      into a fat executable jar. This is a jar that contains all the dependencies 
+      required to run it, so you can just run it with java -jar -->
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -56,12 +83,15 @@
             </goals>
             <configuration>
               <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                <transformer
+                  implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <manifestEntries>
-                    <Main-Class>${exec.mainClass}</Main-Class>
+                    <Main-Class>io.vertx.core.Launcher</Main-Class>
+                    <Main-Verticle>${main.verticle}</Main-Verticle>
                   </manifestEntries>
                 </transformer>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                <transformer
+                  implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                   <resource>META-INF/services/io.vertx.core.spi.VerticleFactory</resource>
                 </transformer>
               </transformers>
