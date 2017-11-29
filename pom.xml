@@ -6,7 +6,7 @@
 
   <groupId>cx.lehmann.vertx</groupId>
   <artifactId>vertx-resturl</artifactId>
-  <version>3.3.0</version>
+  <version>3.5.0</version>
 
   <properties>
     <!-- the main class -->
@@ -34,7 +34,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.5.10</version>
+      <version>1.7.25</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
@@ -43,11 +43,6 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-    <groupId>io.netty</groupId>
-    <artifactId>netty-handler-proxy</artifactId>
-    <version>4.1.0.Final</version>
-</dependency>
   </dependencies>
 
   <build>
